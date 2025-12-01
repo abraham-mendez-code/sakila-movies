@@ -21,6 +21,7 @@ public class App {
 
             Connection connection = ds.getConnection();
             displayActorsByLastName(connection);
+            displayActorsByFullName(connection);
 
         } catch (SQLException e) {
             System.out.println("Failed to connect to DB: " + e);
@@ -29,7 +30,7 @@ public class App {
     }
 
     private static void displayActorsByLastName(Connection connection) throws SQLException {
-        String actor = getAString("Enter the last name of your favorite actor: ");
+        String lastName = getAString("Enter the last name of your favorite actor: ");
 
         PreparedStatement preparedStatement = connection.prepareStatement(String.format("""
                 SELECT
@@ -42,7 +43,34 @@ public class App {
                     Last_Name = "%s"
                 ORDER BY
                     Actor_ID
-                """, actor));
+                """, lastName));
+
+        ResultSet results = preparedStatement.executeQuery();
+
+        printResults(results);
+    }
+
+    private static void displayActorsByFullName(Connection connection) throws SQLException {
+        System.out.println("Movie Search");
+        // get the First Name and Last Name of the actor
+        String firstName = getAString("Enter the first name of an actor: ");
+        String lastName = getAString("Enter the last name of an actor: ");
+
+        PreparedStatement preparedStatement = connection.prepareStatement(String.format("""
+                SELECT
+                	a.Actor_ID,
+                	CONCAT(a.First_Name, ' ', a.Last_Name) as actor_name,
+                	f.Title as movie_title,
+                	f.Release_Year
+                FROM
+                	Actor a
+                	JOIN Film_Actor fa ON fa.Actor_ID = a.Actor_ID
+                	JOIN Film f ON f.Film_ID = fa.Film_ID
+                WHERE
+                	a.First_Name = "%s" AND a.Last_Name = "%s"
+                ORDER BY
+                    Actor_ID
+                """, firstName, lastName));
 
         ResultSet results = preparedStatement.executeQuery();
 
