@@ -59,22 +59,26 @@ public class App {
         // prints an empty line to make the results prettier
         System.out.println();
 
-        while (results.next()) {
+        if (results.next()) {
+            while (results.next()) {
 
-            for (int i = 1; i <= columnCount; i++) {
-                // gets the current column name
-                String columnName = metaData.getColumnName(i);
+                for (int i = 1; i <= columnCount; i++) {
+                    // gets the current column name
+                    String columnName = metaData.getColumnName(i);
 
-                // get the current column value
-                String value = results.getString(i);
+                    // get the current column value
+                    String value = results.getString(i);
 
-                // print out the column name and column value
-                System.out.println(columnName + ": " + value + " ");
+                    // print out the column name and column value
+                    System.out.println(columnName + ": " + value + " ");
+                }
+
+                // prints an empty line to make the results prettier
+                System.out.println();
+
             }
-
-            // prints an empty line to make the results prettier
-            System.out.println();
-
+        } else {
+            System.out.println("No matches!");
         }
 
     }
