@@ -22,12 +22,12 @@ public class App {
             ds.setPassword(password);
 
             // create a new connection with the datasource connection
-            Connection connection = ds.getConnection();
+            try (Connection connection = ds.getConnection()) {
 
             // call methods to search and display info from the database
             displayActorsByLastName(connection);
             displayActorsByFullName(connection);
-
+            }
         } catch (SQLException e) {
             System.out.println("Failed to connect to DB: " + e);
             System.exit(1);
@@ -61,10 +61,14 @@ public class App {
         preparedStatement.setString(1, lastName);
 
         // execute the query and store the results
-        ResultSet results = preparedStatement.executeQuery();
+        try (ResultSet results = preparedStatement.executeQuery()) {
+            // display the results
+            printResults(results);
+        } catch (SQLException e) {
+            System.out.println("Unable to complete query: " + e);
+        }
 
-        // display the results
-        printResults(results);
+
     }
 
     private static void displayActorsByFullName(Connection connection) throws SQLException {
@@ -102,10 +106,12 @@ public class App {
         preparedStatement.setString(2, lastName);
 
         // execute the query and store the results
-        ResultSet results = preparedStatement.executeQuery();
-
-        // display the results
-        printResults(results);
+        try (ResultSet results = preparedStatement.executeQuery()) {
+            // display the results
+            printResults(results);
+        } catch (SQLException e) {
+            System.out.println("Unable to execute query: " + e);
+        }
     }
 
     // this method will be used in the displayMethods to actually print the results to the screen
