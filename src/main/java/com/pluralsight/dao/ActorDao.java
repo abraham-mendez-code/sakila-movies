@@ -9,13 +9,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class actorDao {
+public class ActorDao {
 
     // CLASS ATTRIBUTES
     DataSource dataSource;
 
     // CONSTRUCTOR
-    public actorDao(DataSource dataSource) {
+    public ActorDao(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
@@ -41,7 +41,7 @@ public class actorDao {
 
         // try to run a query amd get the results
         try (
-                // Get a connection
+                // get a connection
                 Connection connection = this.dataSource.getConnection();
 
                 // declare and initialize the prepared statement with the query string
@@ -113,7 +113,7 @@ public class actorDao {
         while (results.next()) {
             // create a new Actor from the results returned from DB
             Actor newActor = new Actor(
-                    results.getInt("ActorID"),
+                    results.getInt("Actor_ID"),
                     results.getString("First_Name"),
                     results.getString("Last_Name")
             );
@@ -122,4 +122,5 @@ public class actorDao {
             actors.add(newActor);
         }
     }
+
 }

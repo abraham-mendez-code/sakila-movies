@@ -28,9 +28,9 @@ public class FilmDao {
         // declare the query string
         String sql = """
                 SELECT
-                	a.Actor_ID,
-                	CONCAT(a.First_Name, ' ', a.Last_Name) as Actor_Name,
-                	f.FilmID,
+                	a.First_Name,
+                	a.Last_Name,
+                	f.Film_ID,
                 	f.Title,
                 	f.Description,
                 	f.Release_Year,
@@ -42,8 +42,9 @@ public class FilmDao {
                 WHERE
                 	a.First_Name = ? AND a.Last_Name = ?
                 ORDER BY
-                    Actor_Name,
-                    FilmID
+                    a.First_Name,
+                    a.Last_Name,
+                    f.Release_Year
                 """;
         // try to run a query amd get the results
         try (
@@ -56,7 +57,7 @@ public class FilmDao {
 
             // replace the placeholder values in the query
             preparedStatement.setString(1,  firstName);
-            preparedStatement.setString(1, lastName);
+            preparedStatement.setString(2, lastName);
 
             try(ResultSet results = preparedStatement.executeQuery()) {
 
@@ -77,11 +78,13 @@ public class FilmDao {
         while (results.next()) {
             // create a new Actor from the results returned from DB
             Film newFilm = new Film(
-                    results.getInt("FilmID"),
+                    results.getInt("Film_ID"),
                     results.getString("Title"),
                     results.getString("Description"),
-                    results.getDate("ReleaseYear"),
-                    results.getString("Length")
+                    results.getDate("Release_Year"),
+                    results.getString("Length"),
+                    results.getString("First_Name"),
+                    results.getString("Last_Name")
             );
 
             // add the actor to the list
