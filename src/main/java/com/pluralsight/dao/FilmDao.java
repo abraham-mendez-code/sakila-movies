@@ -52,7 +52,7 @@ public class FilmDao {
                 Connection connection = this.dataSource.getConnection();
 
                 // declare and initialize the prepared statement with the query string
-                PreparedStatement preparedStatement = connection.prepareStatement(sql);
+                PreparedStatement preparedStatement = connection.prepareStatement(sql)
                 ){
 
             // replace the placeholder values in the query
