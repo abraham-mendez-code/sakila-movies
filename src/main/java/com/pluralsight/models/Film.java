@@ -1,16 +1,19 @@
 package com.pluralsight.models;
 
+import java.sql.Date;
+import java.time.LocalDateTime;
+
 public class Film {
 
     // CLASS ATTRIBUTES
     int filmID;
     String title;
     String description;
-    int releaseYear;
+    Date releaseYear;
     String length;
 
     // CONSTRUCTOR
-    public Film(int filmID, String title, String description, int releaseYear, String length) {
+    public Film(int filmID, String title, String description, Date releaseYear, String length) {
         this.filmID = filmID;
         this.title = title;
         this.description = description;
@@ -43,11 +46,11 @@ public class Film {
         this.description = description;
     }
 
-    public int getReleaseYear() {
+    public Date getReleaseYear() {
         return releaseYear;
     }
 
-    public void setReleaseYear(int releaseYear) {
+    public void setReleaseYear(Date releaseYear) {
         this.releaseYear = releaseYear;
     }
 
